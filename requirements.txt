@@ -1,0 +1,10 @@
+# data management
+pandas
+
+# Jupyter notebook
+ipython
+jupyter
+
+# flow cytometry libraries
+FlowCytometryTools
+FlowCal
