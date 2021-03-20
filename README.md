@@ -11,7 +11,10 @@ Deep learning approaches have seen increased use in several functional genomics 
 ## Additional Resources
 Selected additional resources and documentation to assist in running this code.
 - Flow Cytometry Analysis
+    - [What is Flow Cytometry?](https://www.antibodies-online.com/resources/17/1247/what-is-flow-cytometry-facs-analysis/)
     - [A Beginner’s Guide To Analyzing and Visualizing Mass Cytometry Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5765874/)
+    - [Interpreting flow cytometry data: a guide for the perplexed](http://depts.washington.edu/flowlab/Cell%20Analysis%20Facility/Interpreting%20Flow%20Data.pdf)
     - Packages
         - [`cytoflow` documentation](https://cytoflow.readthedocs.io/en/stable/)
+        - [`FlowCytometryTools` documentation](https://eyurtsev.github.io/FlowCytometryTools/)
 
