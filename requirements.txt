@@ -8,3 +8,4 @@ jupyter
 # flow cytometry libraries
 FlowCytometryTools
 FlowCal
+cytoflow
