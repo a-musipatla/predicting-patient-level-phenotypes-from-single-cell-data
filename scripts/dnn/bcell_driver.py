@@ -1,14 +1,13 @@
+# System arguments
+import argparse
 # data management
 import numpy as np
 import pandas as pd
-
 # visualization
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 # flow cytometry libraries
 import cytoflow as flow
-
 # user defined functions
 import bcell_preprocess as bpreprocess
 import bcell_plot as bplot
