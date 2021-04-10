@@ -36,7 +36,8 @@ print('\n')
 
 # Extract cytometry data in pandas database format
 cells_df   = bpreprocess.tube_to_df(ex)
-print(cells_df.head)
+#print(cells_df.head)
+#print(cells_df.dtypes)
 
 # EDA plots
 bplot.value_count_plot(cells_df).plot(kind = 'bar')
@@ -44,5 +45,3 @@ plt.title("Cell Count by Category")
 plt.xlabel("BCR Stimulated/Unstimulated")
 plt.ylabel("Number of Cells")
 plt.show(block=True)
-
-
