@@ -2,6 +2,9 @@
 import numpy as np
 import pandas as pd
 
+# visualization
+import seaborn as sns
+
 # flow cytometry libraries
 import cytoflow as flow
 
@@ -30,8 +33,10 @@ print(len(ex.channels))
 print('\n')
 
 # Extract cytometry data in pandas database format
-cells_db   = preprocess.tube_to_db(ex)
-print(cells_db.head)
+cells_df   = preprocess.tube_to_df(ex)
+print(cells_df.head)
+
+# EDA plots
 
 
 
