@@ -1,5 +1,9 @@
 # data management
 pandas
+numpy
+
+# NNs
+tensorflow
 
 # Jupyter notebook
 ipython
@@ -9,3 +13,4 @@ jupyter
 FlowCytometryTools
 FlowCal
 cytoflow
+
