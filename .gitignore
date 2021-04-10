@@ -9,3 +9,4 @@ scripts/.ipynb_checkpoints
 
 # Misc
 .DS_store
+*__pycache__/
