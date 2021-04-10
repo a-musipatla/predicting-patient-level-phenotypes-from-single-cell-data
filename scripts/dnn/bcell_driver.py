@@ -5,8 +5,8 @@ import pandas as pd
 # flow cytometry libraries
 import cytoflow as flow
 
-marrow_basal_file = '../data/B_cell_data/Marrow1_01_Basal1.fcs'
-marrow_bcr_file   = '../data/B_cell_data/Marrow1_06_BCR.fcs'
+marrow_basal_file = 'data/B_cell_data/Marrow1_01_Basal1.fcs'
+marrow_bcr_file   = 'data/B_cell_data/Marrow1_06_BCR.fcs'
 
 # using the cytoflow package
 basal_tube = flow.Tube(file = marrow_basal_file,
@@ -19,5 +19,9 @@ import_op = flow.ImportOp(conditions = {'bcr' : 'float'},
 
 
 ex = import_op.apply()
+
+print('\n')
 print("Channels in this experiment: \n", ex.channels)
 print(len(ex.channels))
+print('\n')
+
