@@ -68,6 +68,7 @@ if args.plot:
     plt.show(block=True)
 
 # Format data as tensorslicedataset
+#       https://www.tensorflow.org/tutorials/load_data/pandas_dataframe
 cyto_dataset = bpreprocess.df_to_train_tensor(cells_df)
 if args.verbose:
     # print information on the cell data tensors
