@@ -50,14 +50,28 @@ if args.verbose:
 cells_df   = bpreprocess.tube_to_df(ex)
 if args.verbose:
     # print information about the dataframes with cytometry data
+    print('\n')
+    print('Information on the cytometry measurement dataframe:')
     print(cells_df.head)
     print(cells_df.dtypes)
+    print('\n')
 
 # EDA plots
 if args.plot:
-    # Display a plot showing the count per category
+    # display a plot showing the count per category
     bplot.value_count_plot(cells_df).plot(kind = 'bar')
     plt.title("Cell Count by Category")
     plt.xlabel("BCR Stimulated/Unstimulated")
     plt.ylabel("Number of Cells")
     plt.show(block=True)
+
+# Format data as tensors
+cyto_tens = bpreprocess.df_to_train_tensor(cells_df)
+if args.verbose:
+    # print information on the cell data tensors
+    for feat, targ in cyto_tens.take(5):
+        print('\n')
+        print('Information on the cytometry measurement tensors:')
+        print('Features: {}, Target: {}'.format(feat, targ))
+        print('\n')
+
