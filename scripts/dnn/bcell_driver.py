@@ -81,4 +81,6 @@ if args.verbose:
 
 # Initialize DNN model with tensors
 bcell_nn = bnn.define_model()
+
+# Train model
 bcell_nn.fit(cyto_dataset, epochs=15)
