@@ -27,3 +27,13 @@ def df_to_test_tensor(cyto_df):
     cyto_df = cyto_df
     dataset = tf.data.Dataset.from_tensor_slices((cyto_df.values))
     return dataset
+
+def compute_scale_vector(cyto_df):
+    # function that computes a scale vector for normalizing a dataset
+    # Input:
+    #       Base data frame to normalize against. This can be the training set,
+    #       or a subset of the training set. 
+    # Output:
+    #       A vector that indicates what to scale each feature in a train and test
+    #       dataset with in order to normalize it. 
+    return cyto_df
