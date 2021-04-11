@@ -4,8 +4,9 @@
 # data directories
 data/
 
-# ipython intermediate files
+# python intermediate files
 scripts/.ipynb_checkpoints
+*.pyc
 
 # Misc
 .DS_store
