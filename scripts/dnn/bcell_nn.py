@@ -22,3 +22,6 @@ def define_model():
                 metrics=['accuracy'])
 
     return model
+
+def save_model(model, model_filename):
+    pass
