@@ -11,6 +11,8 @@ import cytoflow as flow
 # user defined functions
 import bcell_preprocess as bpreprocess
 import bcell_plot as bplot
+import bcell_nn as bnn
+
 
 # read command line flags
 parser = argparse.ArgumentParser(description='Run a DNN on cytometry data.')
@@ -65,13 +67,18 @@ if args.plot:
     plt.ylabel("Number of Cells")
     plt.show(block=True)
 
-# Format data as tensors
-cyto_tens = bpreprocess.df_to_train_tensor(cells_df)
+# Format data as tensorslicedataset
+cyto_dataset = bpreprocess.df_to_train_tensor(cells_df)
 if args.verbose:
     # print information on the cell data tensors
-    for feat, targ in cyto_tens.take(5):
-        print('\n')
+    print('\n')
+    print('Tensor Dataset:\t', cyto_dataset)
+    for feat, targ in cyto_dataset.take(5):
         print('Information on the cytometry measurement tensors:')
+        print('Tensor shape:\t', feat.shape)
         print('Features: {}, Target: {}'.format(feat, targ))
         print('\n')
 
+# Initialize DNN model with tensors
+bcell_nn = bnn.define_model()
+bcell_nn.fit(cyto_dataset, epochs=15)

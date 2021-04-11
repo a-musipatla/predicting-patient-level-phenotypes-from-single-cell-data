@@ -18,7 +18,9 @@ def df_to_train_tensor(cyto_df):
     # function that returns tensor features and categories
     y = cyto_df.pop('bcr')
     dataset = tf.data.Dataset.from_tensor_slices((cyto_df.values, y.values))
-    return dataset
+    # shuffle and batch
+    train_dataset = dataset.shuffle(len(cyto_df)).batch(1)
+    return train_dataset
 
 def df_to_test_tensor(cyto_df):
     # function that returns tensor features
