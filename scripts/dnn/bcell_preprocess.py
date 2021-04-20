@@ -37,3 +37,18 @@ def compute_scale_vector(cyto_df):
     #       A vector that indicates what to scale each feature in a train and test
     #       dataset with in order to normalize it. 
     return cyto_df
+
+def train_test_split(cyto_df, split=0.90):
+    # Split data into train/test sets
+    # Input:
+    #       The full dataset
+    # Output:
+    #       train dataset, test features, and test classifications
+
+    # check for invalid split
+    if (split < 0.0) or (split > 1.0):
+        print("Split value of ", split, " is invalid. Must select float value between 0 and 1.")
+        split = 0.9
+        print("Setting train/test split to: ", split, "/", 1 - split)
+    
+    return cyto_df
