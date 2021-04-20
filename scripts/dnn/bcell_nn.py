@@ -25,3 +25,6 @@ def define_model():
 
 def save_model(model, model_filename):
     pass
+
+def fit_model(model, train_dataset, test_dataset, k=1, epochs=15):
+    pass
