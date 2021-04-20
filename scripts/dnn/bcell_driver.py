@@ -100,4 +100,9 @@ train_dataset, test_dataset = bpreprocess.split_dataset(cyto_dataset, args.test_
 model = bnn.define_model()
 
 # Train model
-bnn.fit_model(model, train_dataset, train_dataset, epochs=15)
+bnn.fit_model(model, train_dataset, train_dataset, epochs=1)
+
+# Calculate Acc
+score, acc = model.evaluate(test_dataset)
+print('Test score:', score)
+print('Test accuracy:', acc)
