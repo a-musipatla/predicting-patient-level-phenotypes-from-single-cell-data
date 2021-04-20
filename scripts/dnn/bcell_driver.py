@@ -97,7 +97,7 @@ if args.verbose:
 train_dataset, test_dataset = bpreprocess.split_dataset(cyto_dataset, args.test_split)
 
 # Initialize DNN model with tensors
-bcell_nn = bnn.define_model()
+model = bnn.define_model()
 
 # Train model
-bcell_nn.fit(train_dataset, epochs=15)
+bnn.fit_model(model, train_dataset, train_dataset, epochs=15)

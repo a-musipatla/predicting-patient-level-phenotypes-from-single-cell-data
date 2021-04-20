@@ -36,4 +36,7 @@ def fit_model(model, train_dataset, test_dataset, k=1, epochs=15):
     #       epochs: number for epochs to train
     # Return: 
     #       Fitted model
+
+    model.fit(train_dataset, epochs=epochs)
+
     return model
