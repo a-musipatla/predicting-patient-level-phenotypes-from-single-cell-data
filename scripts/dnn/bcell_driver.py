@@ -24,7 +24,7 @@ parser.add_argument('-p', '--plot',
                     action='store_true')
 parser.add_argument('-k', '--k_fold',
                     type=int, 
-                    default=5, 
+                    default=1, 
                     help="Number of folds in k-fold cross validation.")
 parser.add_argument('-s', '--test_split', 
                     type=float, 
