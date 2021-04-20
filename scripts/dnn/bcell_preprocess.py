@@ -42,26 +42,26 @@ def compute_scale_vector(cyto_df):
     #       dataset with in order to normalize it. 
     return cyto_df
 
-def split_dataset(dataset: tf.data.Dataset, test_data_fraction: float):
-    # Splits a dataset of type tf.data.Dataset into a training and validation dataset using given ratio. Fractions are
+def split_dataset(dataset: tf.data.Dataset, test_split: float):
+    # Splits a dataset of type tf.data.Dataset into a training and test dataset using given ratio. Fractions are
     #   rounded up to two decimal places.
     # Input:
     #       dataset: the input dataset to split.
-    #       validation_data_fraction: the fraction of the validation data as a float between 0 and 1.
+    #       test_split: the fraction of the test data as a float between 0 and 1.
     # Return: 
-    #       a tuple of two tf.data.Datasets as (training, validation)
+    #       a tuple of two tf.data.Datasets as (training, test)
     # Source: https://stackoverflow.com/questions/59669413/what-is-the-canonical-way-to-split-tf-dataset-into-test-and-validation-subsets
 
-    validation_data_percent = round(validation_data_fraction * 100)
-    if not (0 <= validation_data_percent <= 100):
-        raise ValueError("validation data fraction must be ∈ [0,1]")
+    test_data_percent = round(test_split * 100)
+    if not (0 <= test_data_percent <= 100):
+        raise ValueError("test data fraction must be ∈ [0,1]")
 
     dataset = dataset.enumerate()
-    train_dataset = dataset.filter(lambda f, data: f % 100 > validation_data_percent)
-    validation_dataset = dataset.filter(lambda f, data: f % 100 <= validation_data_percent)
+    train_dataset = dataset.filter(lambda f, data: f % 100 > test_data_percent)
+    test_dataset = dataset.filter(lambda f, data: f % 100 <= test_data_percent)
 
     # remove enumeration
     train_dataset = train_dataset.map(lambda f, data: data)
-    validation_dataset = validation_dataset.map(lambda f, data: data)
+    test_dataset = test_dataset.map(lambda f, data: data)
 
-    return train_dataset, validation_dataset
+    return train_dataset, test_dataset
