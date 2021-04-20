@@ -10,9 +10,12 @@ Deep learning approaches have seen increased use in several functional genomics 
 
 ## Running the Models
 
-1. Running `python scripts/dnn/bcell_driver.py` will load and run a DNN on the B-cell cytometry data. Command line flags:
-    - `-v`: Full output verbosity
-    - `-p`: Display all plots
+1. Running `python scripts/dnn/bcell_driver.py` will load and run a DNN on the B-cell cytometry data.
+    - Command line flags:
+        - `-v`: Full output verbosity
+        - `-p`: Display all plots
+        - `-k`: Integer number of folds; default 1
+        - `-s`: float, test split; default 0.1
 
 ## Additional Resources
 Selected additional resources and documentation to assist in running this code.

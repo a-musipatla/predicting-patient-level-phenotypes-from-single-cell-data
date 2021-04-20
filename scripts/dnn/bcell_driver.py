@@ -22,6 +22,14 @@ parser.add_argument('-v', '--verbose',
 parser.add_argument('-p', '--plot', 
                     help='Display plots.',
                     action='store_true')
+parser.add_argument('-k', '--k_fold',
+                    type=int, 
+                    default=1, 
+                    help="Number of folds in k-fold cross validation.")
+parser.add_argument('-s', '--test_split', 
+                    type=float, 
+                    default=0.1, 
+                    help="Fraction of dataset held out as test.")
 args = parser.parse_args()
 
 # specify data files
@@ -80,8 +88,16 @@ if args.verbose:
         print('Features: {}, Target: {}'.format(feat, targ))
         print('\n')
 
+# Train/Test split
+if args.verbose:
+    # print information on split
+    print('\n')
+    print('Holding out ', args.test_split, 'of dataset for testing.')
+    print('\n')
+train_dataset, test_dataset = bpreprocess.split_dataset(cyto_dataset, args.test_split)
+
 # Initialize DNN model with tensors
-bcell_nn = bnn.define_model()
+model = bnn.define_model()
 
 # Train model
-bcell_nn.fit(cyto_dataset, epochs=15)
+bnn.fit_model(model, train_dataset, train_dataset, epochs=15)

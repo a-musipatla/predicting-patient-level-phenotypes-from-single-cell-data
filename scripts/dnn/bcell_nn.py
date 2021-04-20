@@ -22,3 +22,21 @@ def define_model():
                 metrics=['accuracy'])
 
     return model
+
+def save_model(model, model_filename):
+    pass
+
+def fit_model(model, train_dataset, test_dataset, k=1, epochs=15):
+    # Trains a model on input dataset
+    # Input:
+    #       model: the keras model
+    #       train_dataset: tensorslice dataset
+    #       test_dataset: tensorslice dataset
+    #       k: folds
+    #       epochs: number for epochs to train
+    # Return: 
+    #       Fitted model
+
+    model.fit(train_dataset, epochs=epochs)
+
+    return model
