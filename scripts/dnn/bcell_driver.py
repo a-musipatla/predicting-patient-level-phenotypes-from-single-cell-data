@@ -101,3 +101,10 @@ model = bnn.define_model()
 
 # Train model
 bnn.fit_model(model, train_dataset, train_dataset, epochs=15)
+
+# Calculate Acc
+score, acc = model.evaluate(test_dataset)
+print('\n')
+print('Test score:', score)
+print('Test accuracy:', acc)
+print('\n')
