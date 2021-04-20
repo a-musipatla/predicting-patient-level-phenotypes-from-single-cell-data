@@ -89,6 +89,11 @@ if args.verbose:
         print('\n')
 
 # Train/Test split
+if args.verbose:
+    # print information on split
+    print('\n')
+    print('Holding out ', args.test_split, 'of dataset for testing.')
+    print('\n')
 train_dataset, test_dataset = bpreprocess.split_dataset(cyto_dataset, args.test_split)
 
 # Initialize DNN model with tensors
