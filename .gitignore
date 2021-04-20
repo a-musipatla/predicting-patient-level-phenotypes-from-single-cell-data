@@ -3,6 +3,7 @@
 
 # data directories
 data/
+models/
 
 # python intermediate files
 scripts/.ipynb_checkpoints
