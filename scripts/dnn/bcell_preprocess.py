@@ -1,11 +1,15 @@
 # data management
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 # flow cytometry libraries
 import cytoflow as flow
 
-# TensorFlow and 
+# math libraries
+import random
+
+# TensorFlow
 import tensorflow as tf
 
 def tube_to_df(cytometry_experiment):
@@ -38,17 +42,26 @@ def compute_scale_vector(cyto_df):
     #       dataset with in order to normalize it. 
     return cyto_df
 
-def train_test_split(cyto_df, split=0.90):
-    # Split data into train/test sets
+def split_dataset(dataset: tf.data.Dataset, test_data_fraction: float):
+    # Splits a dataset of type tf.data.Dataset into a training and validation dataset using given ratio. Fractions are
+    #   rounded up to two decimal places.
     # Input:
-    #       The full dataset
-    # Output:
-    #       train dataset, test features, and test classifications
+    #       dataset: the input dataset to split.
+    #       validation_data_fraction: the fraction of the validation data as a float between 0 and 1.
+    # Return: 
+    #       a tuple of two tf.data.Datasets as (training, validation)
+    # Source: https://stackoverflow.com/questions/59669413/what-is-the-canonical-way-to-split-tf-dataset-into-test-and-validation-subsets
 
-    # check for invalid split
-    if (split < 0.0) or (split > 1.0):
-        print("Split value of ", split, " is invalid. Must select float value between 0 and 1.")
-        split = 0.9
-        print("Setting train/test split to: ", split, "/", 1 - split)
-    
-    return cyto_df
+    validation_data_percent = round(validation_data_fraction * 100)
+    if not (0 <= validation_data_percent <= 100):
+        raise ValueError("validation data fraction must be ∈ [0,1]")
+
+    dataset = dataset.enumerate()
+    train_dataset = dataset.filter(lambda f, data: f % 100 > validation_data_percent)
+    validation_dataset = dataset.filter(lambda f, data: f % 100 <= validation_data_percent)
+
+    # remove enumeration
+    train_dataset = train_dataset.map(lambda f, data: data)
+    validation_dataset = validation_dataset.map(lambda f, data: data)
+
+    return train_dataset, validation_dataset

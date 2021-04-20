@@ -80,8 +80,11 @@ if args.verbose:
         print('Features: {}, Target: {}'.format(feat, targ))
         print('\n')
 
+# Train/Test split
+train_dataset, test_dataset = bpreprocess.split_dataset(cyto_dataset, 0.95)
+
 # Initialize DNN model with tensors
 bcell_nn = bnn.define_model()
 
 # Train model
-bcell_nn.fit(cyto_dataset, epochs=15)
+bcell_nn.fit(train_dataset, epochs=15)
