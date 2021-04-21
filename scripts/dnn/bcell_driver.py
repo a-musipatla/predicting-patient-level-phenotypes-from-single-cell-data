@@ -114,3 +114,5 @@ print('Test accuracy:', acc)
 print('\n')
 
 # Save model
+model_filename = bnn.save_model(model, args.model_filename)
+print("Model saved to: ", model_filename)
