@@ -30,6 +30,10 @@ parser.add_argument('-s', '--test_split',
                     type=float, 
                     default=0.1, 
                     help="Fraction of dataset held out as test.")
+parser.add_argument('--model_filename', 
+                    type=string,  
+                    default='models/checkpoint_'
+                    help="File path and name to save output model.")
 args = parser.parse_args()
 
 # specify data files
@@ -108,3 +112,7 @@ print('\n')
 print('Test score:', score)
 print('Test accuracy:', acc)
 print('\n')
+
+# Save model
+model_filename = bnn.save_model(model, args.model_filename)
+print("Model saved to: ", model_filename)
