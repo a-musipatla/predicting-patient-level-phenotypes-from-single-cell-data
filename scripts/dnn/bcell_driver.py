@@ -26,6 +26,10 @@ parser.add_argument('-k', '--k_fold',
                     type=int, 
                     default=1, 
                     help="Number of folds in k-fold cross validation.")
+parser.add_argument('-b', '--batch_size',
+                    type=int, 
+                    default=1024, 
+                    help="Batch size")
 parser.add_argument('-s', '--test_split', 
                     type=float, 
                     default=0.1, 
@@ -108,7 +112,7 @@ train_dataset, val_dataset, test_dataset = bpreprocess.split_dataset(cyto_datase
 model = bnn.define_model()
 
 # Train model
-bnn.fit_model(model, train_dataset, val_dataset, train_dataset, epochs=15)
+bnn.fit_model(model, train_dataset, val_dataset, train_dataset, batch_size=args.batch_size, epochs=15)
 
 # Calculate Acc
 score, acc = model.evaluate(test_dataset)
