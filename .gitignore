@@ -3,9 +3,12 @@
 
 # data directories
 data/
+models/
 
-# ipython intermediate files
+# python intermediate files
 scripts/.ipynb_checkpoints
+*.pyc
 
 # Misc
 .DS_store
+*__pycache__/

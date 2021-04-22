@@ -8,6 +8,15 @@ Deep learning approaches have seen increased use in several functional genomics 
     - The `cytoflow` python package requires [SWIG](http://www.swig.org/index.php), which you can install [following these instructions](https://www.dev2qa.com/how-to-install-swig-on-macos-linux-and-windows/). 
 2. Create directory `data/` in the main level of this repository. Use this to store your flow cytometry data. 
 
+## Running the Models
+
+1. Running `python scripts/dnn/bcell_driver.py` will load and run a DNN on the B-cell cytometry data.
+    - Command line flags:
+        - `-v`: Full output verbosity
+        - `-p`: Display all plots
+        - `-k`: Integer number of folds; default 1
+        - `-s`: float, test split; default 0.1
+
 ## Additional Resources
 Selected additional resources and documentation to assist in running this code.
 - Flow Cytometry Analysis
