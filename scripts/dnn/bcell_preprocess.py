@@ -42,11 +42,12 @@ def compute_scale_vector(cyto_df):
     #       dataset with in order to normalize it. 
     return cyto_df
 
-def split_dataset(dataset: tf.data.Dataset, test_split: float):
+def split_dataset(dataset: tf.data.Dataset, val_split: float, test_split: float):
     # Splits a dataset of type tf.data.Dataset into a training and test dataset using given ratio. Fractions are
     #   rounded up to two decimal places.
     # Input:
     #       dataset: the input dataset to split.
+    #       val_split: the fraction of val data as a float between 0 and 1.
     #       test_split: the fraction of the test data as a float between 0 and 1.
     # Return: 
     #       a tuple of two tf.data.Datasets as (training, test)
@@ -56,12 +57,18 @@ def split_dataset(dataset: tf.data.Dataset, test_split: float):
     if not (0 <= test_data_percent <= 100):
         raise ValueError("test data fraction must be ∈ [0,1]")
 
+    val_data_percent = round(val_split * 100)
+    if not (0 <= val_data_percent <= 100):
+        raise ValueError("val data fraction must be ∈ [0,1]")
+
     dataset = dataset.enumerate()
-    train_dataset = dataset.filter(lambda f, data: f % 100 > test_data_percent)
+    train_dataset = dataset.filter(lambda f, data: f % 100 > (test_data_percent + val_data_percent))
+    val_dataset = dataset.filter(lambda f, data: (f % 100 > (test_data_percent) & f % 100 <= (test_data_percent + val_data_percent)) )
     test_dataset = dataset.filter(lambda f, data: f % 100 <= test_data_percent)
 
     # remove enumeration
     train_dataset = train_dataset.map(lambda f, data: data)
+    val_dataset = val_dataset.map(lambda f, data:data)
     test_dataset = test_dataset.map(lambda f, data: data)
 
-    return train_dataset, test_dataset
+    return train_dataset, val_dataset, test_dataset

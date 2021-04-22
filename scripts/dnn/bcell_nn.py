@@ -45,7 +45,7 @@ def save_model(model, model_filename):
 
     return temp_filename
 
-def fit_model(model, train_dataset, test_dataset, k=1, epochs=15):
+def fit_model(model, train_dataset, val_dataset, test_dataset, k=1, epochs=15):
     # Trains a model on input dataset
     # Input:
     #       model: the keras model
@@ -56,6 +56,10 @@ def fit_model(model, train_dataset, test_dataset, k=1, epochs=15):
     # Return: 
     #       Fitted model
 
-    model.fit(train_dataset, epochs=epochs)
+    model.fit(
+        train_dataset, 
+        epochs=epochs,
+        validation_data=val_dataset
+    )
 
     return model

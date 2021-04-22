@@ -30,6 +30,10 @@ parser.add_argument('-s', '--test_split',
                     type=float, 
                     default=0.1, 
                     help="Fraction of dataset held out as test.")
+parser.add_argument('-vs', '--val_split', 
+                    type=float, 
+                    default=0.1, 
+                    help="Fraction of dataset held out as val.")
 parser.add_argument('--model_filename',
                     default='models/checkpoint_',
                     help="File path and name to save output model.")
@@ -97,13 +101,13 @@ if args.verbose:
     print('\n')
     print('Holding out ', args.test_split, 'of dataset for testing.')
     print('\n')
-train_dataset, test_dataset = bpreprocess.split_dataset(cyto_dataset, args.test_split)
+train_dataset, val_dataset, test_dataset = bpreprocess.split_dataset(cyto_dataset, args.val_split, args.test_split)
 
 # Initialize DNN model with tensors
 model = bnn.define_model()
 
 # Train model
-bnn.fit_model(model, train_dataset, train_dataset, epochs=15)
+bnn.fit_model(model, train_dataset, val_dataset, train_dataset, epochs=15)
 
 # Calculate Acc
 score, acc = model.evaluate(test_dataset)
