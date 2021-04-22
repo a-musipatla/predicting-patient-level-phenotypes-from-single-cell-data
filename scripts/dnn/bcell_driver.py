@@ -100,6 +100,7 @@ if args.verbose:
     # print information on split
     print('\n')
     print('Holding out ', args.test_split, 'of dataset for testing.')
+    print('Holding out ', args.val_split, 'of dataset for validation.')
     print('\n')
 train_dataset, val_dataset, test_dataset = bpreprocess.split_dataset(cyto_dataset, args.val_split, args.test_split)
 

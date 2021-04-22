@@ -62,13 +62,16 @@ def split_dataset(dataset: tf.data.Dataset, val_split: float, test_split: float)
         raise ValueError("val data fraction must be ∈ [0,1]")
 
     dataset = dataset.enumerate()
-    train_dataset = dataset.filter(lambda f, data: f % 100 > (test_data_percent + val_data_percent))
-    val_dataset = dataset.filter(lambda f, data: (f % 100 > (test_data_percent) & f % 100 <= (test_data_percent + val_data_percent)) )
+    train_val_dataset = dataset.filter(lambda f, data: f % 100 > test_data_percent)
     test_dataset = dataset.filter(lambda f, data: f % 100 <= test_data_percent)
 
     # remove enumeration
-    train_dataset = train_dataset.map(lambda f, data: data)
-    val_dataset = val_dataset.map(lambda f, data:data)
+    train_val_dataset = train_val_dataset.map(lambda f, data: data)
     test_dataset = test_dataset.map(lambda f, data: data)
+
+    # add validation from training
+    train_val_dataset = train_val_dataset.enumerate()
+    train_dataset = train_val_dataset.filter(lambda f, data: f % 100 > val_data_percent)
+    val_dataset = train_val_dataset.filter(lambda f, data: f % 100 <= val_data_percent)
 
     return train_dataset, val_dataset, test_dataset
