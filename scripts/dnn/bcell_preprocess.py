@@ -18,12 +18,17 @@ def tube_to_df(cytometry_experiment):
     cyto_df = cyto_df.drop(columns=['EventNum', 'Time', 'Cell Length'])
     return cyto_df
 
-def df_to_train_tensor(cyto_df):
+def df_to_train_tensor(cyto_df, use=1.0):
     # function that returns tensor features and categories
+
+    # use a percentage of the dataset to speed up runtime
+    cyto_df = cyto_df.sample(frac=use)
+
     y = cyto_df.pop('bcr')
     dataset = tf.data.Dataset.from_tensor_slices((cyto_df.values, y.values))
     # shuffle and batch
     train_dataset = dataset.shuffle(len(cyto_df)).batch(1)
+
     return train_dataset
 
 def df_to_test_tensor(cyto_df):

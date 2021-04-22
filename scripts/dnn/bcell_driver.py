@@ -38,6 +38,10 @@ parser.add_argument('-vs', '--val_split',
                     type=float, 
                     default=0.1, 
                     help="Fraction of dataset held out as val.")
+parser.add_argument('-f', '--frac', 
+                    type=float, 
+                    default=0.5, 
+                    help="Fraction of total dataset we should use")
 parser.add_argument('--model_filename',
                     default='models/checkpoint_',
                     help="File path and name to save output model.")
@@ -88,7 +92,7 @@ if args.plot:
 
 # Format data as tensorslicedataset
 #       https://www.tensorflow.org/tutorials/load_data/pandas_dataframe
-cyto_dataset = bpreprocess.df_to_train_tensor(cells_df)
+cyto_dataset = bpreprocess.df_to_train_tensor(cells_df, use=args.frac)
 if args.verbose:
     # print information on the cell data tensors
     print('\n')
