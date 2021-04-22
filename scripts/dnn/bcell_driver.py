@@ -107,6 +107,7 @@ if args.verbose:
 if args.verbose:
     # print information on split
     print('\n')
+    print('Using', args.test_split, 'of all available data')
     print('Holding out ', args.test_split, 'of dataset for testing.')
     print('Holding out ', args.val_split, 'of dataset for validation.')
     print('\n')
@@ -116,7 +117,7 @@ train_dataset, val_dataset, test_dataset = bpreprocess.split_dataset(cyto_datase
 model = bnn.define_model()
 
 # Train model
-bnn.fit_model(model, train_dataset, val_dataset, train_dataset, batch_size=args.batch_size, epochs=15)
+_, history = bnn.fit_model(model, train_dataset, val_dataset, train_dataset, batch_size=args.batch_size, epochs=15)
 
 # Calculate Acc
 score, acc = model.evaluate(test_dataset)
@@ -126,5 +127,5 @@ print('Test accuracy:', acc)
 print('\n')
 
 # Save model
-model_filename = bnn.save_model(model, args.model_filename)
+model_filename = bnn.save_model(model, args.model_filename, history=history)
 print("Model saved to: ", model_filename)

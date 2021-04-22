@@ -25,12 +25,13 @@ def define_model():
 
     return model
 
-def save_model(model, model_filename):
+def save_model(model, model_filename, history=None):
     # Saves a model at specified location. If default location, will not overwrite previous 
     # saved models.
     # Input:
     #       model: the keras model
     #       model_filename: 
+    #       history: pass in a history object to save with the same name
     # Return: 
     #       Filepath of saved model
 
@@ -42,10 +43,12 @@ def save_model(model, model_filename):
     temp_filename = temp_filename.format(counter)
 
     model.save(temp_filename)
+    if history:
+        np.save(temp_filename, history.history)               
 
     return temp_filename
 
-def fit_model(model, train_dataset, val_dataset, test_dataset, k=1, batch_size=1024, epochs=15):
+def fit_model(model, train_dataset, val_dataset, test_dataset, k=1, batch_size=1024, epochs=15, patience=5):
     # Trains a model on input dataset
     # Input:
     #       model: the keras model
@@ -56,11 +59,14 @@ def fit_model(model, train_dataset, val_dataset, test_dataset, k=1, batch_size=1
     # Return: 
     #       Fitted model
 
-    model.fit(
+    callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=patience, restore_best_weights=True)
+
+    history = model.fit(
         train_dataset, 
         epochs=epochs,
         batch_size=batch_size,
-        validation_data=val_dataset
+        validation_data=val_dataset,
+        callbacks=[callback]
     )
 
-    return model
+    return model, history
