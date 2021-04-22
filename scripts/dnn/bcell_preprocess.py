@@ -74,4 +74,8 @@ def split_dataset(dataset: tf.data.Dataset, val_split: float, test_split: float)
     train_dataset = train_val_dataset.filter(lambda f, data: f % 100 > val_data_percent)
     val_dataset = train_val_dataset.filter(lambda f, data: f % 100 <= val_data_percent)
 
+    # remove enumeration
+    train_dataset = train_dataset.map(lambda f, data: data)
+    val_dataset = val_dataset.map(lambda f, data: data)
+
     return train_dataset, val_dataset, test_dataset
