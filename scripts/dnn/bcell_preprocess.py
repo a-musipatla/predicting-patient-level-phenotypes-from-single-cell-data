@@ -9,6 +9,9 @@ import cytoflow as flow
 # math libraries
 import random
 
+# Data reduction
+from sklearn.decomposition import PCA
+
 # TensorFlow
 import tensorflow as tf
 
@@ -18,13 +21,20 @@ def tube_to_df(cytometry_experiment):
     cyto_df = cyto_df.drop(columns=['EventNum', 'Time', 'Cell Length'])
     return cyto_df
 
-def df_to_train_tensor(cyto_df, use=1.0):
+def df_to_train_tensor(cyto_df, use=1.0, pca=None):
     # function that returns tensor features and categories
-
-    # use a percentage of the dataset to speed up runtime
+    # inputs
+    #   use: a percentage of the dataset to speed up runtime
+    #   pca: pass in pca dimension to use pca
     cyto_df = cyto_df.sample(frac=use)
 
     y = cyto_df.pop('bcr')
+
+    # tries pca
+    if pca:
+         my_pca = PCA(n_components=pca, svd_solver='full')
+         cyto_df = my_pca.fit_transform(cyto_df)
+
     dataset = tf.data.Dataset.from_tensor_slices((cyto_df.values, y.values))
     # shuffle and batch
     train_dataset = dataset.shuffle(len(cyto_df)).batch(1)
