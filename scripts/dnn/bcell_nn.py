@@ -16,6 +16,8 @@ def define_model(shape=None, dropout=0.1):
     # inputs:
     #   shape: the number of nodes per each layer of neural network. First element is the input size
     #   dropout: dropout layer will be added to the penultimate layer, dropout size
+    # 
+    # assumes that the last layer will have dimension 1 due to binary classification
     ###
 
     model = None
@@ -26,22 +28,20 @@ def define_model(shape=None, dropout=0.1):
                 layers.Dense(20, activation="relu", name="layer1"),
                 layers.Dense(7, activation="relu", name="layer2"),
                 layers.Dropout(dropout),
-                layers.Dense(1, name="layer3"),
+                layers.Dense(1, activation='sigmoid', name="layer3"),
             ]
         )
     
     else:
         model = keras.Sequential()
         for i, x in enumerate(shape):
-            if i == len(shape) - 1:
-                model.add(layers.Dropout(dropout))
-                model.add(layers.Dense(x, name='layer%d' % (i+1)))
-            else:
-                model.add(layers.Dense(x, activation='relu', name='layer%d' % (i+1)))
+            model.add(layers.Dense(x, activation='relu', name='layer%d' % (i+1)))
+        model.add(layers.Dropout(dropout))
+        model.add(layers.Dense(1, activation='sigmoid', name='layer%d' % len(shape)))
 
 
     model.compile(optimizer='adam',
-                loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+                loss=tf.keras.losses.BinaryCrossentropy(),      # removed from_logits = True, seems to solve gradiency issue
                 metrics=['accuracy'])
 
     return model
