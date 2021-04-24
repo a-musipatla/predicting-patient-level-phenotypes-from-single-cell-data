@@ -33,9 +33,12 @@ def df_to_train_tensor(cyto_df, use=1.0, pca=None):
     # tries pca
     if pca:
          my_pca = PCA(n_components=pca, svd_solver='full')
-         cyto_df = my_pca.fit_transform(cyto_df)
+         cyto_df_pca = my_pca.fit_transform(cyto_df)
 
-    dataset = tf.data.Dataset.from_tensor_slices((cyto_df.values, y.values))
+         dataset = tf.data.Dataset.from_tensor_slices((cyto_df_pca, y.values))
+
+    else:
+        dataset = tf.data.Dataset.from_tensor_slices((cyto_df.values, y.values))
     # shuffle and batch
     train_dataset = dataset.shuffle(len(cyto_df)).batch(1)
 

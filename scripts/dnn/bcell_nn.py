@@ -27,7 +27,7 @@ def define_model(shape=None, dropout=0.1):
             [
                 layers.Dense(20, activation="relu", name="layer1"),
                 layers.Dense(7, activation="relu", name="layer2"),
-                layers.Dropout(dropout),
+                layers.Dropout(dropout, name='dropout'),
                 layers.Dense(1, activation='sigmoid', name="layer3"),
             ]
         )
@@ -36,8 +36,8 @@ def define_model(shape=None, dropout=0.1):
         model = keras.Sequential()
         for i, x in enumerate(shape):
             model.add(layers.Dense(x, activation='relu', name='layer%d' % (i+1)))
-        model.add(layers.Dropout(dropout))
-        model.add(layers.Dense(1, activation='sigmoid', name='layer%d' % len(shape)))
+        model.add(layers.Dropout(dropout, name='dropout'))
+        model.add(layers.Dense(1, activation='sigmoid', name='layer%d' % (i+2)))
 
 
     model.compile(optimizer='adam',
@@ -59,7 +59,7 @@ def save_model(model, model_filename, history=None):
     # Increment file name to prevent overwrites
     counter = 0
     temp_filename = model_filename + "{}"
-    while os.path.isfile(temp_filename.format(counter)):
+    while os.path.isfile(temp_filename.format(counter)) or os.path.isdir(temp_filename.format(counter)):
         counter += 1
     temp_filename = temp_filename.format(counter)
 
@@ -69,7 +69,7 @@ def save_model(model, model_filename, history=None):
 
     return temp_filename
 
-def fit_model(model, train_dataset, val_dataset, test_dataset, k=1, batch_size=1024, epochs=15, patience=5):
+def fit_model(model, train_dataset, val_dataset, test_dataset, k=1, batch_size=1024, epochs=15, patience=10):
     # Trains a model on input dataset
     # Input:
     #       model: the keras model
