@@ -35,7 +35,9 @@ def define_model(shape=None, dropout=0.1):
         for i, x in enumerate(shape):
             if i == len(shape) - 1:
                 model.add(layers.Dropout(dropout))
-            model.add(layers.Dense(x, activation='relu', name='layer%d' % (i+1)))
+                model.add(layers.Dense(x, name='layer%d' % (i+1)))
+            else:
+                model.add(layers.Dense(x, activation='relu', name='layer%d' % (i+1)))
 
 
     model.compile(optimizer='adam',
