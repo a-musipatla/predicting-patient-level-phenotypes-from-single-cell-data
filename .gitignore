@@ -2,7 +2,6 @@
 .venv/
 
 # data directories
-data/
 models/
 
 # python intermediate files
