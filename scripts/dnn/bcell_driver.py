@@ -12,6 +12,7 @@ import cytoflow as flow
 import bcell_preprocess as bpreprocess
 import bcell_plot as bplot
 import bcell_nn as bnn
+import json
 
 
 # read command line flags
@@ -42,6 +43,10 @@ parser.add_argument('-f', '--frac',
                     type=float, 
                     default=0.5, 
                     help="Fraction of total dataset we should use")
+parser.add_argument('-mp', '--model_params', 
+                    type=str, 
+                    default=None, 
+                    help="Model params to pass into the model function")
 parser.add_argument('--model_filename',
                     default='models/checkpoint_',
                     help="File path and name to save output model.")
@@ -113,8 +118,14 @@ if args.verbose:
     print('\n')
 train_dataset, val_dataset, test_dataset = bpreprocess.split_dataset(cyto_dataset, args.val_split, args.test_split)
 
-# Initialize DNN model with tensors
-model = bnn.define_model()
+
+if args.model_params:
+    with open(args.model_params) as json_file:
+        params = json.load(json_file)
+    model = bnn.define_model(**params)
+else:
+    # Initialize base DNN model 
+    model = bnn.define_model()
 
 # Train model
 _, history = bnn.fit_model(model, train_dataset, val_dataset, train_dataset, batch_size=args.batch_size, epochs=15)

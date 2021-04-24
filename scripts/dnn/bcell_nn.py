@@ -10,15 +10,35 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def define_model():
-    # Define Sequential model with 3 layers
-    model = keras.Sequential(
-        [
-            layers.Dense(20, activation="relu", name="layer1"),
-            layers.Dense(7, activation="relu", name="layer2"),
-            layers.Dense(1, name="layer3"),
-        ]
-    )
+def define_model(shape=None, dropout=0.1):
+
+    ###
+    # inputs:
+    #   shape: the number of nodes per each layer of neural network. First element is the input size
+    #   dropout: dropout layer will be added to the penultimate layer, dropout size
+    ###
+
+    model = None
+    if not shape:
+        # Define Sequential model with 3 layers
+        model = keras.Sequential(
+            [
+                layers.Dense(20, activation="relu", name="layer1"),
+                layers.Dense(7, activation="relu", name="layer2"),
+                layers.Dropout(dropout),
+                layers.Dense(1, name="layer3"),
+            ]
+        )
+    
+    else:
+        model = tf.keras.Input(shape=(shape[0],))
+        for i, x in enumerate(1, shape[1:]):
+            if i == len(shape) - 1:
+                # add dropout layer
+                model = layers.Dropout(dropout)(model)
+            model = layers.Dense(x, activation='relu', name='layer%d' % i)(model)
+
+
     model.compile(optimizer='adam',
                 loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
                 metrics=['accuracy'])
