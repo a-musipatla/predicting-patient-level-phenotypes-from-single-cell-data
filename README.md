@@ -1,6 +1,6 @@
 # PREDICTING PATIENT-LEVEL PHENOTYPES FROM SINGLE-CELL DATA
 
-Deep learning approaches have seen increased use in several functional genomics applications, often meeting or exceeding the performance of state-of-the-art methodologies. Over the course of this project, we intend to use a convolutional neural network architecture to predict patient-level phenotypes from B cell mass cytometry data.
+Deep learning approaches have seen increased use in several functional genomics applications, often meeting or exceeding the performance of state-of-the-art methodologies. In this project we deploy a deep neural network architecture to predict patient-level phenotypes from single-cell mass cytometry data. We show that a DNN is able to differentiate between between BCR stimulated vs. unstimulated B-Cells with higher accuracy than several machine learning baseline models, and with greater clarity than traditional flow cytometry gating techniques.
 
 ## Getting Started
 
