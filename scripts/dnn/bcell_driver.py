@@ -43,6 +43,10 @@ parser.add_argument('-f', '--frac',
                     type=float, 
                     default=0.5, 
                     help="Fraction of total dataset we should use")
+parser.add_argument('--pca',
+                    type=int,
+                    default=None,
+                    help="pca dimensions")
 parser.add_argument('-mp', '--model_params', 
                     type=str, 
                     default=None, 
@@ -50,6 +54,7 @@ parser.add_argument('-mp', '--model_params',
 parser.add_argument('--model_filename',
                     default='models/checkpoint_',
                     help="File path and name to save output model.")
+
 args = parser.parse_args()
 
 # specify data files
@@ -97,7 +102,7 @@ if args.plot:
 
 # Format data as tensorslicedataset
 #       https://www.tensorflow.org/tutorials/load_data/pandas_dataframe
-cyto_dataset = bpreprocess.df_to_train_tensor(cells_df, use=args.frac)
+cyto_dataset = bpreprocess.df_to_train_tensor(cells_df, use=args.frac, pca=args.pca)
 if args.verbose:
     # print information on the cell data tensors
     print('\n')
@@ -128,7 +133,7 @@ else:
     model = bnn.define_model()
 
 # Train model
-_, history = bnn.fit_model(model, train_dataset, val_dataset, train_dataset, batch_size=args.batch_size, epochs=15)
+model, history = bnn.fit_model(model, train_dataset, val_dataset, train_dataset, batch_size=args.batch_size, epochs=15)
 
 # Calculate Acc
 score, acc = model.evaluate(test_dataset)
